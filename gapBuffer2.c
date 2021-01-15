@@ -221,6 +221,7 @@ static char *test_gapbuf_read_into_insufficient_buffer()
     size_t n = gapbuf_read(gap, too_short, 4);
     my_assert(strncmp("0123456789", too_short, n) == 0,
               "String inconsistency for short buffer");        
+    gapbuf_free(gap);
     printf("OK\n");
     return 0;
 }
