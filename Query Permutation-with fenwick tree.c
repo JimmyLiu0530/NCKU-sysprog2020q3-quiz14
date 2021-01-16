@@ -114,5 +114,9 @@ int main()
         }
         printf("%d,", result[i]);
     }
+
+    free(queries);
+    free(result);
+    
     return 0;
 }
