@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #define lowbit(x) (x & -x)
 
@@ -39,22 +40,79 @@ int *processQueries(int *queries, int queries_size, int m, int *ret_size)
     return ret;
 }
 
-int main()
+/* the following are two different ways to shuffle queries,
+    one is used Fisher Yates shuffle, and 
+    the other is just randomly choose elements in queries.
+  */
+int Fisher_Yates_shuffle(int **ind, int *m)
 {
-    int queries[] = {3,1,2,1};
-    int m = 5;
-    int queriesSize = sizeof(queries) / sizeof(queries[0]);
-    int returnSize;
-    int *ptr;
-    ptr = processQueries(queries, queriesSize, m, &returnSize);
+    srand(time(NULL));
+    *m = (rand() % 10) + 1;  /* 1 <= m <= 10^3, choose a random m */
+    int size = (rand() % (*m)) + 1; /* 1 <= size <= m, choose a random queries size */
+    *ind = (int *)malloc(sizeof(int) * size);
+    /* initialize queries to be [1,2,...,size] */
+    for (int i = 0; i < size; i++) {
+        *(*ind + i) = i+1;
+    }
+    printf("m is %d\n", *m);
+    printf("query size is %d\n", size);
+    srand(time(NULL));
 
-    printf("[");
-    for (int i = 0; i < queriesSize; i++) {
-        if (i == queriesSize - 1) {
-            printf("%d]\n", ptr[i]);
+    printf("queries: [");
+    for (int i = 0; i < size - 1; i++) {
+        int j = rand() % (size - i) + i; /* i <= j <= n-1 */
+        int tmp = *(*ind + j);
+        *(*ind + j) = *(*ind + i);
+        *(*ind + i) = tmp;
+
+        printf("%d, ", *(*ind + i));
+    }
+    printf("%d]\n", *(*ind + size - 1));
+
+    return size;
+}
+
+int randomCreateArr(int **ind, int *m)
+{
+    srand(time(NULL));
+    *m = (rand() % 1000) + 1;  /* 1 <= m <= 10^3, choose a random m */
+    int size = (rand() % (*m)) + 1; /* 1 <= size <= m, choose a random queries size */
+    *ind = (int *)malloc(sizeof(int) * size);
+
+    printf("m is %d\n", *m);
+    printf("query size is %d\n", size);
+
+    srand(time(NULL));
+
+    printf("queries: [");
+    for (int i = 0; i < size; i++) {
+        *(*ind + i) = rand()%(*m) + 1;
+        if (i == size - 1) {
+            printf("%d]\n", *(*ind + i));
             break;
         }
-        printf("%d,", ptr[i]);
+        printf("%d, ", *(*ind + i));
+    }
+
+    return size;
+}
+
+int main()
+{
+    int *queries;
+    int m;
+    int queriesSize = Fisher_Yates_shuffle(&queries, &m);
+    int returnSize;
+    int *result;
+    result = processQueries(queries, queriesSize, m, &returnSize);
+
+    printf("answer: [");
+    for (int i = 0; i < queriesSize; i++) {
+        if (i == queriesSize - 1) {
+            printf("%d]\n", result[i]);
+            break;
+        }
+        printf("%d,", result[i]);
     }
     return 0;
 }
