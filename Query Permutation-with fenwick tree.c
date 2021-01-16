@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
 #define lowbit(x) (x & -x)
+
 static inline int sum(int *tree, int index)
 {
     int ret = 0;
@@ -28,9 +31,9 @@ int *processQueries(int *queries, int queries_size, int m, int *ret_size)
     *ret_size = queries_size;
     int *ret = malloc(sizeof(int) * queries_size);
     for (int i = 0; i < queries_size; ++i) {
-        ret[i] = sum(tree, map[queries[i]]) + PPP;
+        ret[i] = sum(tree, map[queries[i]]) - 1;
         update(tree, tree_size, map[queries[i]], -1); /* set to zero */
-        map[queries[i]] = QQQ;
+        map[queries[i]] = queries_size - i;
         update(tree, tree_size, map[queries[i]], 1); /* move to front */
     }
     return ret;
