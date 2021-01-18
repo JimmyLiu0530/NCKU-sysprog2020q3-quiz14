@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int* processQueries(int* queries, int queriesSize, int m, int* returnSize){
+int* processQueries_without(int* queries, int queriesSize, int m, int* returnSize){
     int pos[m+1]; /* pos[i] is the position (indexing from 0) of number i*/
     for (int i = 0; i < m+1; i++) {  /* initialize pos[] */
         pos[i] = i-1;
@@ -29,7 +29,7 @@ int main()
     int queriesSize = sizeof(queries) / sizeof(queries[0]);
     int returnSize;
     int *ptr;
-    ptr = processQueries(queries, queriesSize, m, &returnSize);
+    ptr = processQueries_without(queries, queriesSize, m, &returnSize);
 
     printf("[");
     for (int i = 0; i < queriesSize; i++) {

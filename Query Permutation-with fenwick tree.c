@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 
+
 #define lowbit(x) (x & -x)
 
 static inline int sum(int *tree, int index)
@@ -30,7 +31,7 @@ int *processQueries(int *queries, int queries_size, int m, int *ret_size)
         update(tree, tree_size, i + queries_size, 1);
 
     *ret_size = queries_size;
-    int *ret = malloc(sizeof(int) * queries_size);
+    int *ret = (int *)malloc(sizeof(int) * queries_size);
     for (int i = 0; i < queries_size; ++i) {
         ret[i] = sum(tree, map[queries[i]]) - 1;
         update(tree, tree_size, map[queries[i]], -1); /* set to zero */
@@ -58,16 +59,12 @@ int Fisher_Yates_shuffle(int **ind, int *m)
     printf("query size is %d\n", size);
     srand(time(NULL));
 
-    printf("queries: [");
     for (int i = 0; i < size - 1; i++) {
         int j = rand() % (size - i) + i; /* i <= j <= n-1 */
         int tmp = *(*ind + j);
         *(*ind + j) = *(*ind + i);
         *(*ind + i) = tmp;
-
-        printf("%d, ", *(*ind + i));
     }
-    printf("%d]\n", *(*ind + size - 1));
 
     return size;
 }
@@ -84,15 +81,8 @@ int randomCreateArr(int **ind, int *m)
 
     srand(time(NULL));
 
-    printf("queries: [");
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
         *(*ind + i) = rand()%(*m) + 1;
-        if (i == size - 1) {
-            printf("%d]\n", *(*ind + i));
-            break;
-        }
-        printf("%d, ", *(*ind + i));
-    }
 
     return size;
 }
