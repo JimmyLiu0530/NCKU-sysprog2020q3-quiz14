@@ -47,7 +47,7 @@ int *processQueries(int *queries, int queries_size, int m, int *ret_size)
 int Fisher_Yates_shuffle(int **ind, int *m)
 {
     srand(time(NULL));
-    *m = (rand() % 10) + 1;  /* 1 <= m <= 10^3, choose a random m */
+    *m = (rand() % 1000) + 1;  /* 1 <= m <= 10^3, choose a random m */
     int size = (rand() % (*m)) + 1; /* 1 <= size <= m, choose a random queries size */
     *ind = (int *)malloc(sizeof(int) * size);
     /* initialize queries to be [1,2,...,size] */
