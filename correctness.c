@@ -29,7 +29,7 @@ int Fisher_Yates_shuffle(int **ind, int *m)
 
 int main()
 {
-    int count = 1000;
+    int count = 1000000;
     while (count-- > 0) {
         int *queries;
         int m;
