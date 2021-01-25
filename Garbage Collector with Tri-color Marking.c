@@ -8,15 +8,15 @@
 typedef enum { OBJECT_TYPE_INT, OBJECT_TYPE_PAIR } ObjectType;
 
 typedef struct sObject {
-    /* GC related */
-    unsigned char mark;    /* 'b': black, 'g': gray, 'w': white */
-    struct sObject *next;  /* the next object chained to it */
-
-    ObjectType type;
     union {
         int value;
         struct { struct sObject *head, *tail; };
     };
+    
+    struct sObject *next;  /* the next object chained to it */
+    ObjectType type;
+    unsigned char mark;    /* 'b': black, 'g': gray, 'w': white */
+    
 } Object;
 
 typedef struct {
